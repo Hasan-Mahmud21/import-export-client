@@ -6,11 +6,12 @@ import { RouterProvider } from "react-router/dom";
 import RootLayout from "./layout/RootLayout.jsx";
 import Home from "./pages/Home.jsx";
 import AllProducts from "./pages/AllProducts.jsx";
-import LatestProducts from "./pages/LatestProducts.jsx";
+
 import ProductDetails from "./pages/ProductDetails.jsx";
 import Login from "./pages/Auth/Login.jsx";
 import Register from "./pages/Auth/Register.jsx";
 import AuthProvider from "./context/AuthProvider.jsx";
+import AddExport from "./pages/AddExport.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -20,18 +21,20 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Home></Home>,
+        loader: () => fetch("http://localhost:3000/latest-products"),
       },
       {
         path: "/allProducts",
         element: <AllProducts></AllProducts>,
-      },
-      {
-        path: "/latest-products",
-        element: <LatestProducts></LatestProducts>,
+        loader: () => fetch("http://localhost:3000/products"),
       },
       {
         path: "productDetails/:id",
         element: <ProductDetails></ProductDetails>,
+      },
+      {
+        path: "/add-export",
+        element: <AddExport></AddExport>,
       },
       {
         path: "/auth/login",

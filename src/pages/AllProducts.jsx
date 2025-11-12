@@ -1,6 +1,11 @@
 import React from "react";
+import { useLoaderData } from "react-router";
+import ProductCard from "../components/ProductCard";
 
 const AllProducts = () => {
+  const products = useLoaderData();
+  console.log(products);
+
   return (
     <main className="max-w-7xl mx-auto px-4 py-10">
       <div className="flex items-center justify-between mb-6">
@@ -10,7 +15,9 @@ const AllProducts = () => {
       <div className="mb-6">{/* <SearchBar/> */}</div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* map <ProductCard/> */}
-        
+        {products.map((product) => (
+          <ProductCard key={product._id} product={product}></ProductCard>
+        ))}
       </div>
     </main>
   );

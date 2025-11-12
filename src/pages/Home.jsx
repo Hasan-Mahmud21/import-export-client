@@ -1,6 +1,9 @@
 import React from "react";
+import { useLoaderData } from "react-router";
+import ProductCard from "../components/ProductCard";
 
 const Home = () => {
+  const latestProducts = useLoaderData();
   return (
     <main>
       {/* Banner */}
@@ -35,13 +38,18 @@ const Home = () => {
       {/* Latest 6 */}
       <section className="max-w-7xl mx-auto px-4 py-12">
         <div className="flex items-end justify-between mb-6">
-          <h2 className="text-2xl font-semibold">Latest Products</h2>
+          <h2 className="text-2xl mx-auto font-semibold text-primary">
+            Latest Products
+          </h2>
           <a className="link link-primary" href="/all-products">
             View all
           </a>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* map latest six <ProductCard/> */}
+          {latestProducts.map((product) => (
+            <ProductCard key={product._id} product={product}></ProductCard>
+          ))}
         </div>
       </section>
 
