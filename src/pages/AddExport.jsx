@@ -3,8 +3,9 @@ import React, { use, useEffect } from "react";
 
 // import toast from "react-hot-toast";
 import { AuthContext } from "../context/AuthContext";
-// import { toast } from "react-toastify";
+
 import { Navigate } from "react-router";
+import { toast } from "react-toastify";
 
 const AddExport = () => {
   const { user } = use(AuthContext) || {};
@@ -46,16 +47,14 @@ const AddExport = () => {
       .then((data) => {
         console.log(data);
 
-        // toast.success("Product added!", { id: "addExp" });
-        // form.reset();
+        toast.success("Product added!");
+        form.reset();
         // Navigate("/allProducts", { replace: true });
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        console.log(error);
         // toast.error(err?.message || "Failed", { id: "addExp" })
       });
-
-    // --- END: Your existing logic can stay exactly the same ---
   };
 
   return (

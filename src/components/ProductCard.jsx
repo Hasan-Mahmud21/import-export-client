@@ -28,7 +28,7 @@ const ProductCard = ({ product }) => {
       {/* Body */}
       <div className="card-body p-5">
         <h2 className="card-title text-base md:text-lg font-semibold mb-1">
-          {name}
+          {product_name}
         </h2>
 
         {/* Origin & Availability */}
