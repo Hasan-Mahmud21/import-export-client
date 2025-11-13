@@ -1,9 +1,7 @@
 import React, { useContext } from "react";
 import { NavLink, Link } from "react-router";
-
-import { FaUserCircle } from "react-icons/fa";
+import { FaGlobeAsia, FaUserCircle } from "react-icons/fa";
 import { AuthContext } from "../context/AuthContext";
-import logo from "../assets/logo.png";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext) || {};
@@ -99,11 +97,7 @@ const Navbar = () => {
             to="/"
             className="flex items-center gap-2 btn btn-ghost normal-case text-xl"
           >
-            <img
-              src={logo}
-              alt="TradeSphere Logo"
-              className="h-10 w-10 object-contain"
-            />
+            <FaGlobeAsia className="text-primary text-xl"></FaGlobeAsia>
             <span className="font-bold text-lg text-primary">TradeSphere</span>
           </Link>
         </div>
