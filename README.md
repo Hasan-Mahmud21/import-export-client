@@ -123,56 +123,6 @@ Animated Hero Banner (Swiper.js)
 
 Gradient buttons & clean table design
 
-📁 Project Structure
-Frontend
-src/
-├── components/
-│ ├── Navbar.jsx
-│ ├── Footer.jsx
-│ ├── Banner.jsx
-│ ├── WhyChooseUs.jsx
-│ ├── GlobalPartners.jsx
-│ ├── ProductCard.jsx
-│ ├── ThemeToggle.jsx
-│
-├── pages/
-│ ├── Home.jsx
-│ ├── AllProducts.jsx
-│ ├── ProductDetails.jsx
-│ ├── MyExports.jsx
-│ ├── MyImports.jsx
-│ ├── AddExport.jsx
-│ └── Auth/
-│ ├── Login.jsx
-│ └── Register.jsx
-│
-├── context/
-│ ├── AuthContext.jsx
-│ └── AuthProvider.jsx
-│
-├── router/
-│ └── main.jsx (routes)
-│
-├── hooks/
-│ └── PrivateRoute.jsx
-│
-├── firebase/
-│ └── firebase.init.js
-│
-└── index.css
-
-Backend
-/
-├── index.js
-├── package.json
-└── vercel.json
-
-🛠 Installation Guide
-
-1. Clone Repository
-   git clone https://github.com/your-username/tradesphere.git
-   cd tradesphere
-
 ⚙️ Backend Setup (Node + Express)
 Install dependencies:
 npm install
