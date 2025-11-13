@@ -7,12 +7,14 @@ const MyExports = () => {
   const { user } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    document.title = "My Exports | TradeSphere";
+  }, []);
 
   // Update Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
 
-  
   useEffect(() => {
     if (!user?.email) return;
 

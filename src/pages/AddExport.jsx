@@ -9,7 +9,7 @@ const AddExport = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Add Export • Import Export Hub";
+    document.title = "Add Export | TradeSphere";
   }, []);
 
   const handleSubmit = (e) => {

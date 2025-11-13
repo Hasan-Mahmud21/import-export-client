@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLoaderData } from "react-router";
 import ProductCard from "../components/ProductCard";
 
 const Home = () => {
+  useEffect(() => {
+    document.title = "Home | TradeSphere";
+  }, []);
   const latestProducts = useLoaderData();
   return (
     <main>
