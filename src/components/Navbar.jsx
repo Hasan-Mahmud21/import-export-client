@@ -31,7 +31,7 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          to="/my-exports"
+          to="/myExports"
           className={({ isActive }) =>
             isActive ? "text-primary font-semibold" : ""
           }
@@ -41,7 +41,7 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          to="/my-imports"
+          to="/myImports"
           className={({ isActive }) =>
             isActive ? "text-primary font-semibold" : ""
           }
