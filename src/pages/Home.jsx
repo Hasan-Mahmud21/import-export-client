@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useLoaderData } from "react-router";
 import ProductCard from "../components/ProductCard";
+import Banner from "../components/Banner";
 
 const Home = () => {
   useEffect(() => {
@@ -10,33 +11,7 @@ const Home = () => {
   return (
     <main>
       {/* Banner */}
-      <section className="bg-linear-to-r from-blue-600 to-indigo-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 py-16 grid md:grid-cols-2 gap-8 items-center">
-          <div>
-            <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-              Export & Import Made Simple
-            </h1>
-            <p className="mt-4 text-white/90">
-              Browse global products and import to your hub in one click.
-            </p>
-            <div className="mt-6 flex gap-3">
-              <a href="/all-products" className="btn btn-white text-blue-600">
-                Explore Products
-              </a>
-              <a href="/add-export" className="btn btn-outline">
-                Add Export
-              </a>
-            </div>
-          </div>
-          <div className="hidden md:block">
-            <img
-              src="/banner-illustration.svg"
-              alt="banner"
-              className="w-full"
-            />
-          </div>
-        </div>
-      </section>
+      <Banner></Banner>
 
       {/* Latest 6 */}
       <section className="max-w-7xl mx-auto px-4 py-12">

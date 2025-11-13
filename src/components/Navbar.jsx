@@ -3,6 +3,7 @@ import { NavLink, Link } from "react-router";
 
 import { FaUserCircle } from "react-icons/fa";
 import { AuthContext } from "../context/AuthContext";
+import logo from "../assets/logo.png";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext) || {};
@@ -99,9 +100,9 @@ const Navbar = () => {
             className="flex items-center gap-2 btn btn-ghost normal-case text-xl"
           >
             <img
-              src="/logo.svg" // ✅ Replace with your actual logo path
+              src={logo}
               alt="TradeSphere Logo"
-              className="h-8 w-8 object-contain"
+              className="h-10 w-10 object-contain"
             />
             <span className="font-bold text-lg text-primary">TradeSphere</span>
           </Link>

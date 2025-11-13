@@ -56,7 +56,7 @@ const MyImports = () => {
 
       <div className="overflow-x-auto bg-base-100 shadow-xl border border-base-200 rounded-2xl">
         <table className="table table-zebra w-full">
-          {/* Table Head */}
+          
           <thead className="bg-base-200 text-base font-semibold text-base-content/80">
             <tr>
               <th>#</th>
@@ -69,7 +69,6 @@ const MyImports = () => {
             </tr>
           </thead>
 
-          {/* Table Body */}
           <tbody>
             {imports.map((item, index) => (
               <tr
@@ -77,8 +76,6 @@ const MyImports = () => {
                 className="hover:bg-base-200 transition-colors duration-200"
               >
                 <td className="font-medium">{index + 1}</td>
-
-                {/* Product image + name */}
                 <td className="flex items-center gap-3 py-3">
                   <div className="w-14 h-14 rounded-xl overflow-hidden shadow-sm">
                     <img
