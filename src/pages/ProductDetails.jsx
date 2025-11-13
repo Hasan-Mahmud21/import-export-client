@@ -43,7 +43,7 @@ const ProductDetails = () => {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/imports", {
+      const res = await fetch("https://tradesphere-server.vercel.app/imports", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(importData),

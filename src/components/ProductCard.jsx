@@ -31,7 +31,7 @@ const ProductCard = ({ product }) => {
           {product_name}
         </h2>
 
-        {/* Origin & Availability */}
+        
         <div className="flex items-center justify-between text-sm text-base-content/70 mb-1">
           <span className="badge badge-outline">{origin_country}</span>
           <span className="text-xs">
@@ -39,12 +39,12 @@ const ProductCard = ({ product }) => {
           </span>
         </div>
 
-        {/* Price */}
+        
         <p className="text-primary font-semibold text-lg mb-2">
           ${Number(price).toFixed(2)}
         </p>
 
-        {/* CTA */}
+        
         <div className="card-actions mt-3">
           <Link
             to={`/productDetails/${_id}`}

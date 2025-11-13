@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { NavLink, Link } from "react-router";
 import { FaGlobeAsia, FaUserCircle } from "react-icons/fa";
 import { AuthContext } from "../context/AuthContext";
+import ThemeToggle from "./ThemeToggle";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext) || {};
@@ -109,6 +110,7 @@ const Navbar = () => {
 
         {/* Navbar End */}
         <div className="navbar-end gap-2">
+          <ThemeToggle />
           {user ? (
             <div className="flex items-center gap-3">
               {user.photoURL ? (

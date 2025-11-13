@@ -28,12 +28,13 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
-        loader: () => fetch("http://localhost:3000/latest-products"),
+        loader: () =>
+          fetch("https://tradesphere-server.vercel.app/latest-products"),
       },
       {
         path: "/allProducts",
         element: <AllProducts />,
-        loader: () => fetch("http://localhost:3000/products"),
+        loader: () => fetch("https://tradesphere-server.vercel.app/products"),
       },
       {
         path: "/productDetails/:id",
@@ -43,7 +44,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:3000/products/${params.id}`),
+          fetch(`https://tradesphere-server.vercel.app/products/${params.id}`),
       },
       {
         path: "/add-export",
@@ -85,7 +86,6 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
       <RouterProvider router={router} />
-      {/* 👇 This is what actually renders all your toast.success / toast.error */}
       <ToastContainer position="top-right" theme="colored" autoClose={2000} />
     </AuthProvider>
   </StrictMode>

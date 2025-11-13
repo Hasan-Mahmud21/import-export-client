@@ -29,7 +29,7 @@ const AddExport = () => {
       added_by: user.email,
     };
 
-    fetch(`http://localhost:3000/products`, {
+    fetch(`https://tradesphere-server.vercel.app/products`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),

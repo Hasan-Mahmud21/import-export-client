@@ -18,7 +18,7 @@ const MyExports = () => {
   useEffect(() => {
     if (!user?.email) return;
 
-    fetch(`http://localhost:3000/products?email=${user.email}`)
+    fetch(`https://tradesphere-server.vercel.app/products?email=${user.email}`)
       .then((res) => res.json())
       .then((data) => {
         setProducts(data);
@@ -41,13 +41,17 @@ const MyExports = () => {
 
   // Delete product
   const handleDelete = (id) => {
-    fetch(`http://localhost:3000/products/${id}`, {
+    fetch(`https://tradesphere-server.vercel.app/products/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
-      .then(() => {
-        toast.success("Product deleted!");
-        setProducts(products.filter((item) => item._id !== id));
+      .then((data) => {
+        if (data.deletedCount > 0) {
+          toast.success("Product deleted!");
+          setProducts((prev) => prev.filter((item) => item._id !== id));
+        } else {
+          toast.error("Delete failed.");
+        }
       })
       .catch(() => toast.error("Delete failed."));
   };
@@ -66,11 +70,14 @@ const MyExports = () => {
       available_quantity: Number(form.available_quantity.value),
     };
 
-    fetch(`http://localhost:3000/products/${editingProduct._id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updatedData),
-    })
+    fetch(
+      `https://tradesphere-server.vercel.app/products/${editingProduct._id}`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedData),
+      }
+    )
       .then((res) => res.json())
       .then(() => {
         toast.success("Product updated!");

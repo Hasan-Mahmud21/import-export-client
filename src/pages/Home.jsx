@@ -21,7 +21,7 @@ const Home = () => {
           <h2 className="text-4xl text-primary font-bold text-center mb-8 mx-auto">
             Latest Products
           </h2>
-          <Link to='/allProducts' className="link link-primary" >
+          <Link to="/allProducts" className="link link-primary">
             View all
           </Link>
         </div>

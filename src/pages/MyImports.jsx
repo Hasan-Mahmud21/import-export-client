@@ -13,7 +13,7 @@ const MyImports = () => {
   useEffect(() => {
     if (!user?.email) return;
 
-    fetch(`http://localhost:3000/imports?email=${user.email}`)
+    fetch(`https://tradesphere-server.vercel.app/imports?email=${user.email}`)
       .then((res) => res.json())
       .then((data) => {
         setImports(data);
@@ -28,17 +28,39 @@ const MyImports = () => {
 
   // Remove import (DB + UI)
   const handleRemove = (id) => {
-    fetch(`http://localhost:3000/imports/${id}`, {
+    fetch(`https://tradesphere-server.vercel.app/imports/${id}`, {
       method: "DELETE",
     })
-      .then((res) => res.json())
-      .then(() => {
-        toast.success("Removed from imports");
-        setImports((prev) => prev.filter((item) => item._id !== id));
+      .then(async (res) => {
+        const text = await res.text();
+
+        if (!res.ok) {
+          console.error("DELETE /imports error response:", text);
+          toast.error("Failed to remove import");
+          return;
+        }
+
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch {
+          console.error("DELETE /imports returned non-JSON:", text);
+          toast.error("Failed to remove import (invalid server response)");
+          return;
+        }
+
+        // ✅ Expect something like: { deletedCount: 1, ... }
+        if (data.deletedCount > 0) {
+          toast.success("Removed from imports");
+          setImports((prev) => prev.filter((item) => item._id !== id));
+        } else {
+          console.warn("DELETE /imports: nothing was deleted:", data);
+          toast.error("Failed to remove import");
+        }
       })
       .catch((err) => {
-        console.error(err);
-        toast.error("Failed to remove import");
+        console.error("FETCH DELETE /imports error:", err);
+        toast.error("Failed to remove import (network error)");
       });
   };
 
@@ -56,7 +78,6 @@ const MyImports = () => {
 
       <div className="overflow-x-auto bg-base-100 shadow-xl border border-base-200 rounded-2xl">
         <table className="table table-zebra w-full">
-          
           <thead className="bg-base-200 text-base font-semibold text-base-content/80">
             <tr>
               <th>#</th>
