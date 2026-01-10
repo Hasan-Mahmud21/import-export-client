@@ -1,8 +1,7 @@
 import React, { useMemo, useState, useEffect, use } from "react";
 import { Link, useNavigate, useLocation } from "react-router";
-
 import { toast } from "react-toastify";
-import { FaGoogle, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaGoogle, FaEye, FaEyeSlash, FaUserPlus } from "react-icons/fa";
 import { AuthContext } from "../../context/AuthContext";
 
 const Register = () => {
@@ -22,18 +21,16 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  // --- Dynamic title to meet the assignment's "Dynamic title" requirement
   useEffect(() => {
-    document.title = "Register • Import Export Hub";
+    document.title = "Register • TradeSphere Hub";
   }, []);
 
+  // Validation Logic
   const passwordError = useMemo(() => {
     const { password } = formData;
-    if (password.length < 6) return "Must be at least 6 characters";
-    if (!/[A-Z]/.test(password))
-      return "Must include at least one uppercase letter";
-    if (!/[a-z]/.test(password))
-      return "Must include at least one lowercase letter";
+    if (password.length < 6) return "Min 6 characters";
+    if (!/[A-Z]/.test(password)) return "Need uppercase";
+    if (!/[a-z]/.test(password)) return "Need lowercase";
     return null;
   }, [formData]);
 
@@ -44,12 +41,6 @@ const Register = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    if (!createUser || !updateUserProfile) {
-      toast.error(
-        "Auth not initialized. Make sure AuthProvider wraps your app."
-      );
-      return;
-    }
     if (passwordError) {
       toast.error(passwordError);
       return;
@@ -58,7 +49,7 @@ const Register = () => {
       setSubmitting(true);
       await createUser(formData.email, formData.password);
       await updateUserProfile(formData.name, formData.photoURL);
-      toast.success("Account created successfully!");
+      toast.success("Welcome to the Hub!");
       navigate(from, { replace: true });
     } catch (err) {
       toast.error(err?.message || "Registration failed");
@@ -68,16 +59,10 @@ const Register = () => {
   };
 
   const handleGoogleRegister = async () => {
-    if (!signInWithGoogle) {
-      toast.error(
-        "Auth not initialized. Make sure AuthProvider wraps your app."
-      );
-      return;
-    }
     try {
       setSubmitting(true);
       await signInWithGoogle();
-      toast.success("Signed in with Google!");
+      toast.success("Google account linked!");
       navigate(from, { replace: true });
     } catch (err) {
       toast.error(err?.message || "Google sign-in failed");
@@ -88,93 +73,91 @@ const Register = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-200 py-12 px-4">
-      <div className="card w-full max-w-md bg-base-100 shadow-xl">
-        <div className="card-body p-8">
-          
-          <h2 className="text-3xl font-bold text-center mb-8">
-            Create your account
-          </h2>
+      {/* Container with Premium Styling */}
+      <div className="card w-full max-w-md bg-base-100 shadow-2xl rounded-[2.5rem] border border-base-200 overflow-hidden">
+        <div className="card-body p-10">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
+              <FaUserPlus className="text-primary text-2xl" />
+            </div>
+            <h2 className="text-3xl font-black text-gray-800">Join the Hub</h2>
+            <p className="text-sm opacity-60 mt-2 font-medium italic">
+              Start your global trade journey
+            </p>
+          </div>
 
-          {/* Registration Form */}
-          <form onSubmit={handleRegister} className="space-y-4">
+          <form onSubmit={handleRegister} className="space-y-5">
             {/* Name */}
-            <div className="form-control w-full">
-              <label className="label pb-1" htmlFor="name">
-                <span className="label-text font-medium">Name</span>
+            <div className="form-control">
+              <label className="label text-xs font-black opacity-50 uppercase tracking-widest">
+                Full Name
               </label>
               <input
-                id="name"
                 type="text"
                 name="name"
-                placeholder="Enter your name"
-                className="input input-bordered w-full"
+                placeholder="John Doe"
+                className="input input-bordered w-full rounded-2xl bg-base-200 border-none focus:ring-2 ring-primary"
                 value={formData.name}
                 onChange={handleChange}
-                autoComplete="name"
                 required
               />
             </div>
 
             {/* Email */}
-            <div className="form-control w-full">
-              <label className="label pb-1" htmlFor="email">
-                <span className="label-text font-medium">Email</span>
+            <div className="form-control">
+              <label className="label text-xs font-black opacity-50 uppercase tracking-widest">
+                Business Email
               </label>
               <input
-                id="email"
                 type="email"
                 name="email"
-                placeholder="Enter your email"
-                className="input input-bordered w-full"
+                placeholder="john@company.com"
+                className="input input-bordered w-full rounded-2xl bg-base-200 border-none focus:ring-2 ring-primary"
                 value={formData.email}
                 onChange={handleChange}
-                autoComplete="email"
                 required
               />
             </div>
 
             {/* Photo URL */}
-            <div className="form-control w-full">
-              <label className="label pb-1" htmlFor="photoURL">
-                <span className="label-text font-medium">Photo URL</span>
+            <div className="form-control">
+              <label className="label text-xs font-black opacity-50 uppercase tracking-widest">
+                Avatar Link
               </label>
               <input
-                id="photoURL"
                 type="url"
                 name="photoURL"
-                placeholder="Enter photo URL"
-                className="input input-bordered w-full"
+                placeholder="https://..."
+                className="input input-bordered w-full rounded-2xl bg-base-200 border-none focus:ring-2 ring-primary"
                 value={formData.photoURL}
                 onChange={handleChange}
-                autoComplete="photo"
                 required
               />
             </div>
 
-            {/* Password */}
-            <div className="form-control w-full">
-              <label className="label pb-1" htmlFor="password">
-                <span className="label-text font-medium">Password</span>
+            {/* Password with Dynamic Visual Feedback */}
+            <div className="form-control">
+              <label className="label text-xs font-black opacity-50 uppercase tracking-widest">
+                Secure Password
               </label>
               <div className="relative">
                 <input
-                  id="password"
                   type={showPassword ? "text" : "password"}
                   name="password"
-                  placeholder="Enter your password"
-                  className={`input input-bordered w-full pr-12 ${
-                    passwordError ? "input-error" : ""
+                  placeholder="••••••••"
+                  className={`input input-bordered w-full pr-12 rounded-2xl bg-base-200 border-none transition-all duration-300 focus:ring-2 ${
+                    passwordError && formData.password.length > 0
+                      ? "ring-error"
+                      : "ring-primary"
                   }`}
                   value={formData.password}
                   onChange={handleChange}
-                  autoComplete="new-password"
                   required
                 />
                 <button
                   type="button"
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                  onClick={() => setShowPassword((s) => !s)}
-                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 opacity-40 hover:opacity-100 hover:text-primary"
+                  onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
                     <FaEyeSlash size={18} />
@@ -183,49 +166,71 @@ const Register = () => {
                   )}
                 </button>
               </div>
-              <label className="label pt-1">
-                <span
-                  className={`label-text-alt text-xs ${
-                    passwordError ? "text-error" : "text-gray-500"
+
+              {/* Requirement Badges */}
+              <div className="mt-3 flex flex-wrap gap-2">
+                <div
+                  className={`badge badge-sm py-2 px-3 gap-1 border-none transition-all font-bold ${
+                    formData.password.length >= 6
+                      ? "bg-success/20 text-success"
+                      : "bg-base-300 opacity-40"
                   }`}
                 >
-                  {passwordError
-                    ? `Password error: ${passwordError}`
-                    : "Must have 6+ characters, 1 uppercase & 1 lowercase letter"}
-                </span>
-              </label>
+                  {formData.password.length >= 6 && "✓"} 6+ Chars
+                </div>
+                <div
+                  className={`badge badge-sm py-2 px-3 gap-1 border-none transition-all font-bold ${
+                    /[A-Z]/.test(formData.password)
+                      ? "bg-success/20 text-success"
+                      : "bg-base-300 opacity-40"
+                  }`}
+                >
+                  {/[A-Z]/.test(formData.password) && "✓"} Uppercase
+                </div>
+                <div
+                  className={`badge badge-sm py-2 px-3 gap-1 border-none transition-all font-bold ${
+                    /[a-z]/.test(formData.password)
+                      ? "bg-success/20 text-success"
+                      : "bg-base-300 opacity-40"
+                  }`}
+                >
+                  {/[a-z]/.test(formData.password) && "✓"} Lowercase
+                </div>
+              </div>
             </div>
 
-            {/* Register Button */}
-            <div className="form-control w-full pt-2">
-              <button
-                type="submit"
-                className="btn btn-primary text-white w-full"
-                disabled={submitting || loading || Boolean(passwordError)}
-              >
-                {submitting ? "Creating..." : "Register"}
-              </button>
-            </div>
+            <button
+              type="submit"
+              className="btn btn-primary w-full rounded-2xl text-white shadow-xl shadow-primary/20 mt-2"
+              disabled={submitting || loading || Boolean(passwordError)}
+            >
+              {submitting ? (
+                <span className="loading loading-spinner"></span>
+              ) : (
+                "Create Elite Account"
+              )}
+            </button>
           </form>
 
-          {/* Divider */}
-          <div className="divider my-4">OR</div>
+          <div className="divider opacity-50 text-[10px] font-black uppercase tracking-widest my-6">
+            Social Connect
+          </div>
 
-          {/* Google Button */}
           <button
             onClick={handleGoogleRegister}
-            className="btn btn-outline w-full"
+            className="btn btn-outline w-full rounded-2xl gap-3 border-base-300 hover:bg-base-200 hover:text-base-content transition-all"
             disabled={submitting || loading}
           >
-            <FaGoogle className="text-lg" />
-            Continue with Google
+            <FaGoogle className="text-error" /> Sign up with Google
           </button>
 
-          {/* Login Link  */}
-          <p className="text-center mt-6 text-sm">
-            Already have an account?{" "}
-            <Link to="/auth/login" className="link link-primary font-semibold">
-              Login here
+          <p className="text-center mt-8 text-sm font-medium">
+            Member of TradeSphere?{" "}
+            <Link
+              to="/auth/login"
+              className="text-primary font-black hover:underline"
+            >
+              Sign In Here
             </Link>
           </p>
         </div>

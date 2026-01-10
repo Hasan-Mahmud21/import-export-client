@@ -1,58 +1,51 @@
 import React, { use, useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router";
 import { toast } from "react-toastify";
-import { FaGoogle, FaEye, FaEyeSlash } from "react-icons/fa";
+import {
+  FaGoogle,
+  FaEye,
+  FaEyeSlash,
+  FaUserShield,
+  FaUserAlt,
+} from "react-icons/fa";
 import { AuthContext } from "../../context/AuthContext";
-
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-
-  const { signInUser, signInWithGoogle, loading } = use(AuthContext) || {};
+  const { signInUser, signInWithGoogle } = use(AuthContext) || {};
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [resetEmail, setResetEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  // Dynamic title to satisfy assignment requirement
   useEffect(() => {
-    document.title = "Login • Import Export Hub";
+    document.title = "Login • TradeSphere";
   }, []);
+
+  // --- Auto-fill Demo Credentials ---
+  const handleDemoLogin = (role) => {
+    if (role === "admin") {
+      setEmail("admin@tradesphere.com");
+      setPassword("Admin@123");
+    } else {
+      setEmail("user@tradesphere.com");
+      setPassword("User@123");
+    }
+    toast.info(`Demo ${role} credentials filled!`);
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (!signInUser) {
-      toast.error("Auth not initialized. Ensure AuthProvider wraps your app.");
-      return;
-    }
     try {
       setSubmitting(true);
       await signInUser(email, password);
-      toast.success("Login successful!");
+      toast.success("Welcome back to TradeSphere!");
       navigate(from, { replace: true });
     } catch (error) {
-      toast.error("Login failed: " + (error?.message || "Unknown error"));
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  const handleGoogleLogin = async () => {
-    if (!signInWithGoogle) {
-      toast.error("Auth not initialized. Ensure AuthProvider wraps your app.");
-      return;
-    }
-    try {
-      setSubmitting(true);
-      await signInWithGoogle();
-      toast.success("Signed in with Google!");
-      navigate(from, { replace: true });
-    } catch (error) {
-      toast.error("Google login failed: " + (error?.message || "Unknown error"));
+      toast.error(error?.message || "Invalid credentials");
     } finally {
       setSubmitting(false);
     }
@@ -60,144 +53,124 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-200 py-12 px-4">
-      <div className="card w-full max-w-md bg-base-100 shadow-xl">
-        <div className="card-body p-8">
-          {/* Title — consistent with Register */}
-          <h2 className="text-3xl font-bold text-center mb-8">Login</h2>
+      <div className="card w-full max-w-md bg-base-100 shadow-2xl rounded-[2.5rem] overflow-hidden">
+        <div className="card-body p-10">
+          <div className="text-center mb-8">
+            <h2 className="text-4xl font-black text-primary italic">
+              TradeSphere
+            </h2>
+            <p className="text-base-content/60 mt-2 font-medium">
+              Global Logistics Portal
+            </p>
+          </div>
 
-          {/* Login Form */}
-          <form onSubmit={handleLogin} className="space-y-4">
-            {/* Email */}
-            <div className="form-control w-full">
-              <label className="label pb-1" htmlFor="email">
-                <span className="label-text font-medium">Email</span>
+          <form onSubmit={handleLogin} className="space-y-5">
+            <div className="form-control">
+              <label className="label text-sm font-bold opacity-70">
+                BUSINESS EMAIL
               </label>
               <input
-                id="email"
                 type="email"
-                placeholder="Enter your email"
-                className="input input-bordered w-full"
+                placeholder="name@company.com"
+                className="input input-bordered w-full rounded-2xl bg-base-200 border-none focus:ring-2 ring-primary"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                autoComplete="email"
                 required
               />
             </div>
 
-            {/* Password */}
-            <div className="form-control w-full">
-              <label className="label pb-1" htmlFor="password">
-                <span className="label-text font-medium">Password</span>
+            <div className="form-control">
+              <label className="label text-sm font-bold opacity-70">
+                PASSWORD
               </label>
               <div className="relative">
                 <input
-                  id="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Enter your password"
-                  className="input input-bordered w-full pr-12"
+                  placeholder="••••••••"
+                  className="input input-bordered w-full pr-12 rounded-2xl bg-base-200 border-none focus:ring-2 ring-primary"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  autoComplete="current-password"
                   required
                 />
                 <button
                   type="button"
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                  onClick={() => setShowPassword((s) => !s)}
-                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 opacity-40 hover:opacity-100"
+                  onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
+              <div className="text-right mt-2">
+                <button
+                  type="button"
+                  className="text-xs link link-primary no-underline font-bold"
+                  onClick={() =>
+                    document
+                      .getElementById("forgot_password_modal")
+                      ?.showModal()
+                  }
+                >
+                  Forgot Password?
                 </button>
               </div>
             </div>
 
-            {/* Forgot Password Link (UI only per assignment) */}
-            <div className="text-right">
-              <button
-                type="button"
-                className="text-sm link link-primary font-medium"
-                onClick={() =>
-                  document.getElementById("forgot_password_modal")?.showModal()
-                }
-              >
-                Forgot password?
-              </button>
-            </div>
-
-            {/* Login Button — same color style as Register (btn-primary) */}
-            <div className="form-control w-full pt-2">
-              <button
-                type="submit"
-                className="btn btn-primary w-full"
-                disabled={submitting || loading}
-              >
-                {submitting ? "Logging in..." : "Login"}
-              </button>
-            </div>
+            <button
+              type="submit"
+              className="btn btn-primary w-full rounded-2xl text-white shadow-lg shadow-primary/30"
+              disabled={submitting}
+            >
+              {submitting ? (
+                <span className="loading loading-dots"></span>
+              ) : (
+                "Sign In"
+              )}
+            </button>
           </form>
 
-          {/* Divider */}
-          <div className="divider my-4">OR</div>
+          {/* --- Demo Section (Assignment Requirement) --- */}
+          <div className="mt-8 pt-6 border-t border-base-200">
+            <p className="text-center text-[10px] uppercase tracking-widest font-black opacity-40 mb-4">
+              Quick Access Demo
+            </p>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                onClick={() => handleDemoLogin("user")}
+                className="btn btn-sm btn-outline rounded-xl gap-2 font-bold lowercase"
+              >
+                <FaUserAlt size={12} /> user_login
+              </button>
+              <button
+                onClick={() => handleDemoLogin("admin")}
+                className="btn btn-sm btn-outline rounded-xl gap-2 font-bold lowercase"
+              >
+                <FaUserShield size={12} /> admin_login
+              </button>
+            </div>
+          </div>
 
-          {/* Google Login Button — outline to match Register */}
+          <div className="divider opacity-50 text-[10px] font-bold">
+            OR CONTINUE WITH
+          </div>
+
           <button
-            onClick={handleGoogleLogin}
-            className="btn btn-outline w-full"
-            disabled={submitting || loading}
+            onClick={() => signInWithGoogle()}
+            className="btn btn-outline w-full rounded-2xl gap-3 border-base-300 hover:bg-base-200 hover:text-base-content"
           >
-            <FaGoogle className="text-lg" />
-            Continue with Google
+            <FaGoogle className="text-error" /> Google Workspace
           </button>
 
-          {/* Sign Up Link — keep route consistent with register page */}
-          <p className="text-center mt-6 text-sm">
-            Don&apos;t have an account?{" "}
-            <Link to="/auth/register" className="link link-primary font-semibold">
-              Register here
+          <p className="text-center mt-8 text-sm font-medium">
+            New to the hub?{" "}
+            <Link
+              to="/auth/register"
+              className="text-primary font-black hover:underline"
+            >
+              Create Account
             </Link>
           </p>
         </div>
       </div>
-
-      {/* Forgot Password Modal (UI only, no backend per assignment guideline) */}
-      <dialog id="forgot_password_modal" className="modal">
-        <div className="modal-box">
-          <form method="dialog">
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-              ✕
-            </button>
-          </form>
-          <h3 className="font-bold text-xl mb-4">Reset Password</h3>
-          <p className="text-base-content/70 mb-4">
-            Enter your email address and we&apos;ll send you a reset link.
-          </p>
-          <div className="form-control w-full">
-            <label className="label pb-1" htmlFor="reset-email">
-              <span className="label-text font-medium">Email Address</span>
-            </label>
-            <input
-              id="reset-email"
-              type="email"
-              placeholder="your@email.com"
-              className="input input-bordered w-full"
-              value={resetEmail}
-              onChange={(e) => setResetEmail(e.target.value)}
-            />
-          </div>
-          <div className="modal-action mt-6">
-            <button
-              className="btn btn-primary"
-              type="button"
-              onClick={() => {
-                // Assignment note: skip actual reset logic to avoid examiner inconvenience.
-                toast.info("Password reset is disabled for the assignment.");
-              }}
-            >
-              Send Reset Link
-            </button>
-          </div>
-        </div>
-      </dialog>
     </div>
   );
 };
