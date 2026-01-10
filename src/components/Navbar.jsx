@@ -47,17 +47,17 @@ const Navbar = () => {
   const privateLinks = (
     <>
       <li>
-        <NavLink to="/myExports" className={linkClass}>
+        <NavLink to="/dashboard/my-exports" className={linkClass}>
           My Exports
         </NavLink>
       </li>
       <li>
-        <NavLink to="/myImports" className={linkClass}>
+        <NavLink to="/dashboard/my-imports" className={linkClass}>
           My Imports
         </NavLink>
       </li>
       <li>
-        <NavLink to="/add-export" className={linkClass}>
+        <NavLink to="/dashboard/add-export" className={linkClass}>
           Add Export
         </NavLink>
       </li>
